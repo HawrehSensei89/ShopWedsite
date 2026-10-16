@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if banners %}
+<section class="slider" id="slider" data-aos="zoom-in">
+  {% for b in banners %}
+  <div class="slide theme-{{ b.theme }}{% if b.image %} has-img{% endif %}{% if forloop.first %} active{% endif %}" {% if b.image %}style="background-image:url('{{ b.image.url }}')"{% endif %}>
+    <div class="slide-text"><h2>{{ b.title }}</h2><p>{{ b.subtitle }}</p><a class="btn" href="{{ b.link }}">{{ b.button|default:T.hero_cta }}</a></div>
+    <div class="slide-emoji">{{ b.emoji }}</div>
+  </div>
+  {% endfor %}
+  <button class="slider-btn prev" id="prevBtn" aria-label="prev"><i class="ri-arrow-left-s-line"></i></button>
+  <button class="slider-btn next" id="nextBtn" aria-label="next"><i class="ri-arrow-right-s-line"></i></button>
+  <div class="dots" id="dots"></div>
+</section>
+{% endif %}
+<section class="cats">
+  {% for c, items in sections %}
+  <a class="cat-tile cat-{{ c.slug }}" href="{% url 'category' c.slug %}" data-aos="fade-up" data-aos-delay="{% widthratio forloop.counter0 1 100 %}"><i class="{{ c.icon }}"></i><span>{{ c.name }}</span></a>
+  {% endfor %}
+</section>
+{% for c, items in sections %}
+<section class="section">
+  <div class="section-head" data-aos="fade-right"><h2>{{ c.name }}</h2><a href="{% url 'category' c.slug %}">{{ T.view_all }} <i class="ri-arrow-right-s-line flip"></i></a></div>
+  <div class="grid">{% for p in items %}{% include '_card.html' %}{% endfor %}</div>
+</section>
+{% endfor %}
+{% endblock %}

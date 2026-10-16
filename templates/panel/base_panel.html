@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}{{ T.admin_panel }}{% endblock %}
+{% block content %}
+<div class="section-head" data-aos="fade-right"><h1><i class="ri-dashboard-3-line"></i> {{ T.admin_panel }}</h1><a href="/admin/" class="muted"><small>{{ T.django_admin }}</small></a></div>
+<nav class="chips panel-nav">
+  {% for key, label, icon in nav %}
+  <a class="chip {% if section == key %}on{% endif %}" href="{% if key == 'dashboard' %}{% url 'panel' %}{% else %}{% url 'panel_list' key %}{% endif %}"><i class="{{ icon }}"></i> {% if label == 'p_dashboard' %}{{ T.p_dashboard }}{% elif label == 'p_users' %}{{ T.p_users }}{% elif label == 'categories' %}{{ T.categories }}{% elif label == 'p_products' %}{{ T.p_products }}{% elif label == 'p_banners' %}{{ T.p_banners }}{% elif label == 'orders' %}{{ T.orders }}{% elif label == 'p_visits' %}{{ T.p_visits }}{% elif label == 'p_activity' %}{{ T.p_activity }}{% endif %}</a>
+  {% endfor %}
+</nav>
+{% block panel %}{% endblock %}
+{% endblock %}

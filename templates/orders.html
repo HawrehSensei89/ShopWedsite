@@ -1,0 +1,9 @@
+{% extends 'base.html' %}{% load shop_extras %}
+{% block content %}
+<div class="section-head"><h1>{{ T.orders }}</h1></div>
+{% for o in orders %}
+<div class="card pad" data-aos="fade-up"><div class="row between"><b>{{ T.order_no }} #{{ o.pk|money }}</b><span class="chip on">{{ T.status_paid }}</span></div>
+<ul class="plain">{% for i in o.items.all %}<li><span>{{ i.product_name }} × {{ i.quantity|money }}</span><b>{{ i.price|money }}</b></li>{% endfor %}</ul>
+<div class="summary-line">{{ o.total|money }} <small>{{ T.toman }}</small> · {{ o.created|date:"Y/m/d" }}</div></div>
+{% empty %}<p class="muted center">{{ T.no_orders }}</p>{% endfor %}
+{% endblock %}

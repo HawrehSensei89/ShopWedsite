@@ -1,0 +1,10 @@
+{% extends 'base.html' %}{% load shop_extras %}
+{% block content %}
+<section class="auth card center" data-aos="zoom-in">
+  <i class="ri-checkbox-circle-fill big-i ok"></i>
+  <h1>{{ T.pay_success }}</h1>
+  <p>{{ T.order_no }}: <b>#{{ order.pk|money }}</b></p>
+  <p class="price lg">{{ order.total|money }} <small>{{ T.toman }}</small></p>
+  <a class="btn" href="{% url 'home' %}">{{ T.back_home }}</a>
+</section>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'panel/base_panel.html' %}
+{% block panel %}
+<section class="stats">
+  {% for icon, key, value, tone in stats %}
+  <div class="stat card tone-{{ tone }}" data-aos="fade-up">
+    <i class="{{ icon }}"></i>
+    <div><small class="muted">{% if key == 'st_users' %}{{ T.st_users }}{% elif key == 'st_new_users' %}{{ T.st_new_users }}{% elif key == 'st_revenue' %}{{ T.st_revenue }}{% elif key == 'st_revenue_today' %}{{ T.st_revenue_today }}{% elif key == 'st_orders' %}{{ T.st_orders }}{% elif key == 'st_avg' %}{{ T.st_avg }}{% elif key == 'st_visits_today' %}{{ T.st_visits_today }}{% elif key == 'st_visits_7' %}{{ T.st_visits_7 }}{% elif key == 'st_visits_total' %}{{ T.st_visits_total }}{% elif key == 'st_unique' %}{{ T.st_unique }}{% elif key == 'st_online' %}{{ T.st_online }}{% endif %}</small><b>{{ value }}</b></div>
+  </div>
+  {% endfor %}
+</section>
+<section class="grid2">
+  <div class="card pad" data-aos="fade-up"><h3>{{ T.chart_sales }}</h3>
+    <div class="bars">{% for d in days %}<div class="bar-col" title="{{ d.rev_txt }} {{ T.toman }}"><span class="bar-val">{{ d.rev_txt }}</span><div class="bar" style="height:{{ d.rev_pct }}%"></div><small>{{ d.label }}</small></div>{% endfor %}</div></div>
+  <div class="card pad" data-aos="fade-up"><h3>{{ T.chart_visits }}</h3>
+    <div class="bars alt">{% for d in days %}<div class="bar-col" title="{{ d.vis_txt }}"><span class="bar-val">{{ d.vis_txt }}</span><div class="bar" style="height:{{ d.vis_pct }}%"></div><small>{{ d.label }}</small></div>{% endfor %}</div></div>
+</section>
+<section class="grid2">
+  <div class="card pad" data-aos="fade-up"><h3>{{ T.top_products }}</h3>
+    {% if top %}<ul class="plain">{% for t in top %}<li><span>{{ t.label }}</span><b>{{ t.q_txt }} {{ T.units }}</b></li>{% endfor %}</ul>{% else %}<p class="muted">{{ T.no_data }}</p>{% endif %}</div>
+  <div class="card pad" data-aos="fade-up"><h3>{{ T.recent_orders }}</h3>
+    {% if recent_orders %}<ul class="plain">{% for r in recent_orders %}<li><span>{{ r.0 }} · {{ r.1 }}</span><b>{{ r.2 }}</b></li>{% endfor %}</ul>{% else %}<p class="muted">{{ T.no_data }}</p>{% endif %}</div>
+</section>
+<section class="card pad" data-aos="fade-up"><div class="row between"><h3>{{ T.recent_activity }}</h3><a class="muted" href="{% url 'panel_list' 'activity' %}">{{ T.view_all }}</a></div>
+  {% if recent_act %}<ul class="plain">{% for r in recent_act %}<li><span>{{ r.1 }} — {{ r.2 }}</span><small class="muted">{{ r.0 }}</small></li>{% endfor %}</ul>{% else %}<p class="muted">{{ T.no_data }}</p>{% endif %}</section>
+{% endblock %}

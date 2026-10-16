@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}{% if cat %}{{ cat.name }}{% else %}{{ T.all_products }}{% endif %}{% endblock %}
+{% block content %}
+<div class="section-head" data-aos="fade-right"><h1>{% if cat %}{{ cat.name }}{% else %}{{ T.all_products }}{% endif %}</h1></div>
+<form class="search" method="get"><i class="ri-search-line"></i><input name="q" value="{{ q }}" placeholder="{{ T.search }}"></form>
+<div class="chips">
+  <a class="chip {% if not cat %}on{% endif %}" href="{% url 'shop' %}">{{ T.all_products }}</a>
+  {% for c in nav_categories %}<a class="chip {% if cat.pk == c.pk %}on{% endif %}" href="{% url 'category' c.slug %}"><i class="{{ c.icon }}"></i> {{ c.name }}</a>{% endfor %}
+</div>
+{% if products %}<div class="grid">{% for p in products %}{% include '_card.html' %}{% endfor %}</div>{% else %}<p class="muted center">{{ T.not_found }}</p>{% endif %}
+{% endblock %}

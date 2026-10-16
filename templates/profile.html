@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}{{ T.profile }}{% endblock %}
+{% block content %}
+<section class="auth card" data-aos="zoom-in">
+  <h1><i class="ri-user-settings-line"></i> {{ T.profile }} <small class="muted">{{ user.email }}</small></h1>
+  <form method="post">{% csrf_token %}
+    {% include '_form.html' with form=uform %}{% include '_form.html' with form=pform %}
+    <button class="btn btn-block">{{ T.save }}</button>
+  </form>
+  <p class="center"><a href="{% url 'orders' %}">{{ T.orders }}</a></p>
+</section>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'panel/base_panel.html' %}
+{% block panel %}
+<div class="row between toolbar">
+  <form class="search grow" method="get"><i class="ri-search-line"></i><input name="q" value="{{ q }}" placeholder="{{ T.search_generic }}"></form>
+  {% if c.add %}<a class="btn" href="{% url 'panel_add' entity %}"><i class="ri-add-line"></i> {{ T.add_new }}</a>{% endif %}
+</div>
+{% if rows %}
+<div class="table-wrap card" data-aos="fade-up">
+<table class="table">
+  <thead><tr>{% for h in headers %}<th>{{ h }}</th>{% endfor %}{% if c.edit or c.delete %}<th>{{ T.col_actions }}</th>{% endif %}</tr></thead>
+  <tbody>
+  {% for r in rows %}
+    <tr>{% for cell in r.cells %}<td>{{ cell }}</td>{% endfor %}
+    {% if c.edit or c.delete %}<td class="acts">
+      {% if c.edit %}<a class="icon-btn" href="{% url 'panel_edit' entity r.pk %}" title="{{ T.edit }}"><i class="ri-edit-line"></i></a>{% endif %}
+      {% if c.delete %}<form method="post" action="{% url 'panel_delete' entity r.pk %}" onsubmit="return confirm('{{ T.confirm_delete|escapejs }}')">{% csrf_token %}<button class="icon-btn danger" title="{{ T.delete }}"><i class="ri-delete-bin-6-line"></i></button></form>{% endif %}
+    </td>{% endif %}</tr>
+  {% endfor %}
+  </tbody>
+</table></div>
+{% if page.has_other_pages %}
+<div class="row pager">
+  {% if page.has_previous %}<a class="btn btn-ghost btn-sm" href="?page={{ page.previous_page_number }}&q={{ q|urlencode }}">{{ T.prev }}</a>{% endif %}
+  <span class="muted">{{ page.number }} / {{ page.paginator.num_pages }}</span>
+  {% if page.has_next %}<a class="btn btn-ghost btn-sm" href="?page={{ page.next_page_number }}&q={{ q|urlencode }}">{{ T.next }}</a>{% endif %}
+</div>{% endif %}
+{% else %}<p class="muted center">{{ T.no_data }}</p>{% endif %}
+{% endblock %}

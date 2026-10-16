@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}{{ T.register }}{% endblock %}
+{% block content %}
+<section class="auth card" data-aos="zoom-in">
+  <h1><i class="ri-user-add-line"></i> {{ T.register }}</h1>
+  <form method="post">{% csrf_token %}{% include '_form.html' with form=form %}<button class="btn btn-block">{{ T.register }}</button></form>
+  <p class="muted center">{{ T.have_account }} <a href="{% url 'login' %}">{{ T.login }}</a></p>
+</section>
+{% endblock %}

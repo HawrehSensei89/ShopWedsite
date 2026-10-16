@@ -1,0 +1,18 @@
+{% extends 'base.html' %}{% load shop_extras %}
+{% block title %}{{ p.name }}{% endblock %}
+{% block content %}
+<section class="detail card" data-aos="fade-up">
+  <div class="thumb big cat-{{ p.category.slug }}">{% if p.image %}<img src="{{ p.image.url }}" alt="{{ p.name }}">{% else %}<span>{{ p.emoji }}</span>{% endif %}</div>
+  <div class="detail-info">
+    <a class="chip" href="{% url 'category' p.category.slug %}"><i class="{{ p.category.icon }}"></i> {{ p.category.name }}</a>
+    <h1>{{ p.name }}</h1>
+    <p class="muted">{{ p.desc }}</p>
+    <div class="price lg">{{ p.price|money }} <small>{{ T.toman }}</small></div>
+    <form method="post" action="{% url 'add_to_cart' p.pk %}">{% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.get_full_path }}">
+      <button class="btn"><i class="ri-shopping-cart-line"></i> {{ T.add_to_cart }}</button>
+    </form>
+  </div>
+</section>
+{% if related %}<section class="section"><div class="section-head"><h2>{{ p.category.name }}</h2></div><div class="grid">{% for p in related %}{% include '_card.html' %}{% endfor %}</div></section>{% endif %}
+{% endblock %}

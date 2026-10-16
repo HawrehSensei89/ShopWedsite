@@ -1,0 +1,29 @@
+{% extends 'base.html' %}{% load shop_extras %}
+{% block title %}{{ T.cart }}{% endblock %}
+{% block content %}
+<div class="section-head"><h1><i class="ri-shopping-cart-2-line"></i> {{ T.cart }}</h1></div>
+{% if items %}
+<form method="post" action="{% url 'checkout' %}" id="cartForm" class="cart">
+  {% csrf_token %}
+  <label class="check all"><input type="checkbox" id="selectAll" checked> {{ T.select_all }}</label>
+  <div class="cart-list">
+  {% for i in items %}
+    <div class="cart-row card" data-aos="fade-up" data-id="{{ i.pk }}" data-price="{{ i.product.price }}">
+      <input type="checkbox" class="sel" name="items" value="{{ i.pk }}" checked>
+      <a class="thumb sm cat-{{ i.product.category.slug }}" href="{% url 'product' i.product.pk %}">{% if i.product.image %}<img src="{{ i.product.image.url }}" alt="">{% else %}<span>{{ i.product.emoji }}</span>{% endif %}</a>
+      <div class="cart-info"><h3>{{ i.product.name }}</h3><div class="price">{{ i.product.price|money }} <small>{{ T.toman }}</small></div></div>
+      <div class="qty"><button type="button" class="minus">−</button><span class="q">{{ i.quantity }}</span><button type="button" class="plus">+</button></div>
+      <button type="submit" class="icon-btn danger" formaction="{% url 'remove_from_cart' i.pk %}" formnovalidate title="{{ T.remove }}"><i class="ri-delete-bin-6-line"></i></button>
+    </div>
+  {% endfor %}
+  </div>
+  <div class="summary card">
+    <div>{{ T.total_selected }}: <b class="price lg" id="total">0</b> <small>{{ T.toman }}</small></div>
+    <button class="btn" id="payBtn"><i class="ri-bank-card-line"></i> {{ T.checkout }}</button>
+  </div>
+</form>
+{% else %}
+<div class="empty card center"><i class="ri-shopping-cart-line big-i"></i><p>{{ T.empty_cart }}</p><a class="btn" href="{% url 'shop' %}">{{ T.shop }}</a></div>
+{% endif %}
+{% endblock %}
+{% block scripts %}<script>window.UPDATE_URL="{% url 'update_cart' 0 %}".replace(/0\/$/,'');</script>{% endblock %}

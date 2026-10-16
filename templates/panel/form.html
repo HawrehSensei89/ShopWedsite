@@ -1,0 +1,10 @@
+{% extends 'panel/base_panel.html' %}
+{% block panel %}
+<section class="auth card wide" data-aos="zoom-in">
+  <form method="post" enctype="multipart/form-data">{% csrf_token %}
+    {% include '_form.html' %}
+    <div class="row"><button class="btn">{{ T.save }}</button><a class="btn btn-ghost" href="{% url 'panel_list' entity %}">{{ T.cancel }}</a></div>
+  </form>
+  {% if link_options %}<datalist id="link-options">{% for url, label in link_options %}<option value="{{ url }}">{{ label }}</option>{% endfor %}</datalist>{% endif %}
+</section>
+{% endblock %}

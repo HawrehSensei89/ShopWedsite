@@ -1,0 +1,14 @@
+{% extends 'base.html' %}{% load shop_extras %}
+{% block title %}{{ T.gateway_title }}{% endblock %}
+{% block content %}
+<section class="auth card gate" data-aos="zoom-in">
+  <h1><i class="ri-secure-payment-line"></i> {{ T.gateway_title }}</h1>
+  <div class="alert info">{{ T.test_notice }}</div>
+  <ul class="plain">{% for i in items %}<li><span>{{ i.product.name }} × {{ i.quantity|money }}</span><b>{{ i.subtotal|money }}</b></li>{% endfor %}</ul>
+  <div class="summary-line">{{ T.total }}: <b class="price lg">{{ total|money }}</b> <small>{{ T.toman }}</small></div>
+  <form method="post" class="row">{% csrf_token %}
+    <button class="btn" name="action" value="pay">{{ T.pay }}</button>
+    <button class="btn btn-ghost" name="action" value="cancel">{{ T.cancel }}</button>
+  </form>
+</section>
+{% endblock %}
